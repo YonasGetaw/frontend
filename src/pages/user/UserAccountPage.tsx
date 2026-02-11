@@ -31,10 +31,26 @@ export function UserAccountPage() {
     }
   });
 
+  const stats = useQuery({
+    queryKey: ["account-stats"],
+    queryFn: async () => {
+      const res = await http.get("/me/account-stats");
+      return res.data as {
+        totalRechargeCents: number;
+        totalWithdrawCents: number;
+        totalAssetsCents: number;
+        todayIncomeCents: number;
+        teamIncomeCents: number;
+        totalIncomeCents: number;
+      };
+    }
+  });
+
   const referralCode = me.data?.user?.referralCode ?? authUser?.referralCode ?? null;
   const points = me.data?.user?.points ?? authUser?.points ?? 0;
   const balanceCents = me.data?.user?.balanceCents ?? 0;
   const teamCount = me.data?.teamCount ?? 0;
+  const vipLevel = (me.data as any)?.user?.vipLevel ?? (authUser as any)?.vipLevel ?? 1;
 
   const referralLink = useMemo(() => {
     if (!referralCode) return "";
@@ -51,7 +67,7 @@ export function UserAccountPage() {
             <div className="text-lg font-semibold">Account</div>
             <div className="mt-1 text-xs text-white/80">{authUser?.email ?? ""}</div>
           </div>
-          <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">VIP-1</div>
+          <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">VIP-{vipLevel}</div>
         </div>
 
         <div className="mt-4 rounded-2xl bg-white p-4 text-slate-900 shadow-soft">
@@ -73,13 +89,19 @@ export function UserAccountPage() {
         </div>
 
         <div className="mt-4 grid grid-cols-3 gap-3 text-center">
-          <TopMetric title="Recharge wallet" value="0" />
-          <TopMetric title="Balance wallet" value={(balanceCents / 100).toFixed(2)} />
-          <TopMetric title="Team" value={String(teamCount)} />
+          <TopMetric title="Total recharge" value={stats.data ? String(Math.round(stats.data.totalRechargeCents / 100)) : "0"} />
+          <TopMetric title="Total withdraw" value={stats.data ? String(Math.round(stats.data.totalWithdrawCents / 100)) : "0"} />
+          <TopMetric title="Total assets" value={stats.data ? String(Math.round(stats.data.totalAssetsCents / 100)) : "0"} />
         </div>
       </div>
 
       <div className="mx-auto w-full max-w-6xl px-4 pb-6 pt-4 md:px-0">
+        <div className="grid grid-cols-3 gap-3 text-center">
+          <TopMetric title="Today's income" value={stats.data ? (stats.data.todayIncomeCents / 100).toFixed(2) : "0"} />
+          <TopMetric title="Team income" value={stats.data ? (stats.data.teamIncomeCents / 100).toFixed(2) : "0"} />
+          <TopMetric title="Total income" value={stats.data ? (stats.data.totalIncomeCents / 100).toFixed(2) : "0"} />
+        </div>
+
         <div className="grid grid-cols-3 gap-3">
           <ActionShortcut 
             title="Recharge" 
@@ -151,7 +173,7 @@ export function UserAccountPage() {
           />
         </div>
 
-        {me.isLoading ? <div className="mt-3 text-sm text-slate-600">Loading…</div> : null}
+        {me.isLoading || stats.isLoading ? <div className="mt-3 text-sm text-slate-600">Loading…</div> : null}
       </div>
     </div>
   );
