@@ -82,7 +82,7 @@ export function SpinRewardCard(props: { className?: string; title?: string }) {
       <div className="p-4 space-y-3">
         <div className="text-sm text-slate-700">
           You can spin when a user you invite makes their first approved deposit. Reward is always {" "}
-          <span className="font-semibold">80</span> or <span className="font-semibold">100</span> birr.
+          <span className="font-semibold">80</span> upto <span className="font-semibold">500</span> birr.
         </div>
 
         <div className="grid grid-cols-4 gap-2">
