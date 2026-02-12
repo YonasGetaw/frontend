@@ -4,51 +4,45 @@ import { useQuery } from "@tanstack/react-query";
 import { http } from "../../api/http";
 import { Card } from "../../ui/Card";
 
-type Transaction = {
+type ActivityItem = {
   id: string;
+  kind: "ORDER" | "WITHDRAWAL" | "SEND" | "RECEIVE" | "DAILY_REWARD" | "SPIN_REWARD";
   amountCents: number;
-  type: "SEND" | "RECEIVE";
   createdAt: string;
-  fromUser?: {
-    id: string;
-    name: string;
-    email: string;
-  };
-  toUser?: {
-    id: string;
-    name: string;
-    email: string;
-  };
+  meta: any;
 };
 
 export function UserTransactionsPage() {
-  const [activeTab, setActiveTab] = useState<"all" | "sent" | "received">("all");
+  const [activeTab, setActiveTab] = useState<
+    "all" | "orders" | "withdrawals" | "transfers" | "rewards"
+  >("all");
 
-  const { data: sentTransactions } = useQuery({
-    queryKey: ["transactions", "sent"],
+  const activity = useQuery({
+    queryKey: ["me-activity"],
     queryFn: async () => {
-      const res = await http.get("/transactions/sent");
-      return res.data.transactions as Transaction[];
+      const res = await http.get("/me/activity?limit=100");
+      return res.data.items as ActivityItem[];
     }
   });
 
-  const { data: receivedTransactions } = useQuery({
-    queryKey: ["transactions", "received"],
-    queryFn: async () => {
-      const res = await http.get("/transactions/received");
-      return res.data.transactions as Transaction[];
-    }
-  });
+  const items = activity.data ?? [];
+  const display =
+    activeTab === "all"
+      ? items
+      : activeTab === "orders"
+      ? items.filter((i) => i.kind === "ORDER")
+      : activeTab === "withdrawals"
+      ? items.filter((i) => i.kind === "WITHDRAWAL")
+      : activeTab === "transfers"
+      ? items.filter((i) => i.kind === "SEND" || i.kind === "RECEIVE")
+      : items.filter((i) => i.kind === "DAILY_REWARD" || i.kind === "SPIN_REWARD");
 
-  const allTransactions = [...(sentTransactions ?? []), ...(receivedTransactions ?? [])]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-  const displayTransactions = activeTab === "all" ? allTransactions :
-    activeTab === "sent" ? sentTransactions ?? [] :
-    receivedTransactions ?? [];
-
-  const totalSent = sentTransactions?.reduce((sum, t) => sum + t.amountCents, 0) ?? 0;
-  const totalReceived = receivedTransactions?.reduce((sum, t) => sum + t.amountCents, 0) ?? 0;
+  const totalIn = items
+    .filter((i) => i.kind === "RECEIVE" || i.kind === "DAILY_REWARD" || i.kind === "SPIN_REWARD")
+    .reduce((sum, i) => sum + i.amountCents, 0);
+  const totalOut = items
+    .filter((i) => i.kind === "SEND" || i.kind === "WITHDRAWAL")
+    .reduce((sum, i) => sum + i.amountCents, 0);
 
   return (
     <div className="space-y-4">
@@ -59,9 +53,9 @@ export function UserTransactionsPage() {
 
       <Card>
         <div className="grid gap-3 md:grid-cols-3">
-          <Metric title="Total Sent" value={`ETB ${(totalSent / 100).toFixed(2)}`} />
-          <Metric title="Total Received" value={`ETB ${(totalReceived / 100).toFixed(2)}`} />
-          <Metric title="Net Balance" value={`ETB ${((totalReceived - totalSent) / 100).toFixed(2)}`} />
+          <Metric title="Total In" value={`ETB ${(totalIn / 100).toFixed(2)}`} />
+          <Metric title="Total Out" value={`ETB ${(totalOut / 100).toFixed(2)}`} />
+          <Metric title="Net" value={`ETB ${((totalIn - totalOut) / 100).toFixed(2)}`} />
         </div>
       </Card>
 
@@ -71,58 +65,87 @@ export function UserTransactionsPage() {
             <TabButton
               label="All"
               isActive={activeTab === "all"}
-              count={allTransactions.length}
+              count={items.length}
               onClick={() => setActiveTab("all")}
             />
             <TabButton
-              label="Sent"
-              isActive={activeTab === "sent"}
-              count={sentTransactions?.length ?? 0}
-              onClick={() => setActiveTab("sent")}
+              label="Orders"
+              isActive={activeTab === "orders"}
+              count={items.filter((i) => i.kind === "ORDER").length}
+              onClick={() => setActiveTab("orders")}
             />
             <TabButton
-              label="Received"
-              isActive={activeTab === "received"}
-              count={receivedTransactions?.length ?? 0}
-              onClick={() => setActiveTab("received")}
+              label="Withdraw"
+              isActive={activeTab === "withdrawals"}
+              count={items.filter((i) => i.kind === "WITHDRAWAL").length}
+              onClick={() => setActiveTab("withdrawals")}
+            />
+            <TabButton
+              label="Transfers"
+              isActive={activeTab === "transfers"}
+              count={items.filter((i) => i.kind === "SEND" || i.kind === "RECEIVE").length}
+              onClick={() => setActiveTab("transfers")}
+            />
+            <TabButton
+              label="Rewards"
+              isActive={activeTab === "rewards"}
+              count={items.filter((i) => i.kind === "DAILY_REWARD" || i.kind === "SPIN_REWARD").length}
+              onClick={() => setActiveTab("rewards")}
             />
           </div>
         </div>
         <div className="divide-y divide-slate-200">
-          {displayTransactions.map((transaction) => (
-            <div key={transaction.id} className="px-4 py-3">
+          {display.map((item) => (
+            <div key={item.id} className="px-4 py-3">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <div className="font-medium text-slate-900">
-                      {transaction.type === "SEND" ? "Sent to" : "Received from"}{" "}
-                      {transaction.type === "SEND" ? transaction.toUser?.name : transaction.fromUser?.name}
+                      {item.kind === "ORDER"
+                        ? `Order - ${item.meta?.productName ?? "Product"}`
+                        : item.kind === "WITHDRAWAL"
+                        ? `Withdrawal (${item.meta?.status ?? ""})`
+                        : item.kind === "SEND"
+                        ? `Sent to ${item.meta?.to?.name ?? "User"}`
+                        : item.kind === "RECEIVE"
+                        ? `Received from ${item.meta?.from?.name ?? "User"}`
+                        : item.kind === "DAILY_REWARD"
+                        ? "Daily reward"
+                        : "Spin reward"}
                     </div>
-                    <TransactionTypePill type={transaction.type} />
+                    <ActivityPill kind={item.kind} />
                   </div>
-                  <div className="text-sm text-slate-600">
-                    {transaction.type === "SEND" ? transaction.toUser?.email : transaction.fromUser?.email}
-                  </div>
+                  {item.kind === "SEND" || item.kind === "RECEIVE" ? (
+                    <div className="text-sm text-slate-600">
+                      {item.kind === "SEND" ? item.meta?.to?.email : item.meta?.from?.email}
+                    </div>
+                  ) : null}
                   <div className="text-xs text-slate-500 mt-1">
-                    {new Date(transaction.createdAt).toLocaleString()}
+                    {new Date(item.createdAt).toLocaleString()}
                   </div>
                 </div>
                 <div className="text-right">
                   <div className={`font-semibold ${
-                    transaction.type === "SEND" ? "text-red-700" : "text-green-700"
+                    item.kind === "SEND" || item.kind === "WITHDRAWAL" ? "text-red-700" : "text-green-700"
                   }`}>
-                    {transaction.type === "SEND" ? "-" : "+"}ETB {(transaction.amountCents / 100).toFixed(2)}
+                    {item.kind === "SEND" || item.kind === "WITHDRAWAL" ? "-" : "+"}ETB {(item.amountCents / 100).toFixed(2)}
                   </div>
                 </div>
               </div>
             </div>
           ))}
 
-          {displayTransactions.length === 0 && (
+          {display.length === 0 && (
             <div className="px-4 py-6 text-sm text-slate-600">
-              {activeTab === "all" ? "No transactions yet." :
-               activeTab === "sent" ? "No sent transactions yet." :
-               "No received transactions yet."}
+              {activeTab === "all"
+                ? "No activity yet."
+                : activeTab === "orders"
+                ? "No orders yet."
+                : activeTab === "withdrawals"
+                ? "No withdrawals yet."
+                : activeTab === "transfers"
+                ? "No transfers yet."
+                : "No rewards yet."}
             </div>
           )}
         </div>
@@ -161,16 +184,20 @@ function TabButton({ label, isActive, count, onClick }: {
   );
 }
 
-function TransactionTypePill({ type }: { type: "SEND" | "RECEIVE" }) {
+function ActivityPill({ kind }: { kind: ActivityItem["kind"] }) {
   return (
     <span
       className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${
-        type === "SEND"
+        kind === "SEND" || kind === "WITHDRAWAL"
           ? "bg-red-50 text-red-800 border-red-200"
-          : "bg-green-50 text-green-800 border-green-200"
+          : kind === "ORDER"
+          ? "bg-sky-50 text-sky-800 border-sky-200"
+          : kind === "RECEIVE"
+          ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+          : "bg-violet-50 text-violet-800 border-violet-200"
       }`}
     >
-      {type}
+      {kind}
     </span>
   );
 }

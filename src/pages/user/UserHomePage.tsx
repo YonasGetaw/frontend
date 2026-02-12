@@ -6,6 +6,7 @@ import { env } from "../../env";
 import { Button } from "../../ui/Button";
 import { Card } from "../../ui/Card";
 import { NavigationBar } from "../../components/ui/NavigationBar";
+import { SpinRewardCard } from "../../components/user/SpinRewardCard";
 
 function toPublicUrl(url: string) {
   if (!url) return url;
@@ -70,6 +71,8 @@ export function UserHomePage() {
           <div className="mt-1 text-sm text-slate-600">Products and payment details are maintained by administrators.</div>
         </Card>
       </div>
+
+      <SpinRewardCard title="Spin (Invite Gift)" />
 
       <div className="flex items-end justify-between">
         <div>
