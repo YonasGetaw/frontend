@@ -67,7 +67,7 @@ export function UserGiftPage() {
         <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold text-slate-600">Spin reward</div>
         <div className="p-4 space-y-3">
           <div className="text-sm text-slate-700">
-            You can spin when a user you invited makes their first approved deposit. Reward is always <span className="font-semibold">80</span>{" "}
+            You can spin when a user you invite makes their first approved deposit. Reward is always <span className="font-semibold">80</span>{" "}
             or <span className="font-semibold">100</span> birr.
           </div>
 
@@ -108,12 +108,14 @@ export function UserGiftPage() {
       <Card>
         <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold text-slate-600">Daily reward</div>
         <div className="p-4 space-y-3">
-          <div className="text-sm text-slate-700">Claim 30 birr every 24 hours after your first approved deposit.</div>
+          <div className="text-sm text-slate-700">
+            Daily rewards start after you deposit 550 birr (25 birr/day) or 1100 birr (70 birr/day). You also get 80 birr bonus assets when your deposits reach 550 birr.
+          </div>
 
           <div className="flex items-center justify-between gap-3">
             <div className="text-xs font-semibold text-slate-600">
               {dailyStatus.data?.eligible
-                ? "Available now"
+                ? `Available: ${dailyStatus.data.amountCents ? Math.round(dailyStatus.data.amountCents / 100) : 0} birr`
                 : dailyStatus.data?.nextAt
                 ? `Next at ${new Date(dailyStatus.data.nextAt).toLocaleString()}`
                 : "Not available"}
@@ -126,7 +128,7 @@ export function UserGiftPage() {
               className={dailyStatus.data?.eligible ? "bg-emerald-600 hover:bg-emerald-700" : "bg-slate-400 hover:bg-slate-400"}
               disabled={!dailyStatus.data?.eligible || claimDaily.isPending}
             >
-              {claimDaily.isPending ? "Claiming…" : "Get 30 birr"}
+              {claimDaily.isPending ? "Claiming…" : dailyStatus.data?.amountCents ? `Get ${Math.round(dailyStatus.data.amountCents / 100)} birr` : "Get daily reward"}
             </Button>
           </div>
         </div>
