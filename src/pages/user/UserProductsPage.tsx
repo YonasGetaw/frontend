@@ -69,6 +69,15 @@ export function UserProductsPage() {
             key={p.id}
             product={p}
             onPurchase={(productId) => setActiveProductId(productId)}
+            details={
+              activeProductId === p.id ? (
+                <PaymentPanel
+                  productId={activeProductId}
+                  settings={payment.data}
+                  onClose={() => setActiveProductId(null)}
+                />
+              ) : null
+            }
           />
         ))}
 
@@ -84,15 +93,6 @@ export function UserProductsPage() {
           </Card>
         )}
       </div>
-
-      {/* Payment Modal */}
-      {activeProductId && (
-        <PaymentPanel
-          productId={activeProductId}
-          settings={payment.data}
-          onClose={() => setActiveProductId(null)}
-        />
-      )}
 
       {products.isLoading ? <div className="text-sm text-slate-600">Loading…</div> : null}
     </div>

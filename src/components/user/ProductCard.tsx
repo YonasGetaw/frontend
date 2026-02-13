@@ -1,5 +1,7 @@
 import { Card } from "../../ui/Card";
 
+import type { ReactNode } from "react";
+
 interface Product {
   id: string;
   name: string;
@@ -13,9 +15,10 @@ interface Product {
 interface ProductCardProps {
   product: Product;
   onPurchase: (productId: string) => void;
+  details?: ReactNode;
 }
 
-export function ProductCard({ product, onPurchase }: ProductCardProps) {
+export function ProductCard({ product, onPurchase, details }: ProductCardProps) {
   const handlePurchase = () => {
     onPurchase(product.id);
   };
@@ -82,6 +85,8 @@ export function ProductCard({ product, onPurchase }: ProductCardProps) {
               {product.isActive ? 'Purchase Now' : 'Unavailable'}
             </button>
           </div>
+
+          {details ? <div className="mt-4">{details}</div> : null}
         </div>
       </div>
     </Card>
