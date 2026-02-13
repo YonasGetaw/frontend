@@ -49,17 +49,10 @@ export function UserHomePage() {
                 <img src="/vestoria-logo.svg" alt="Vestoria" className="h-12 w-12" />
               </div>
             </div>
-          <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-white/80">Vestoria Platform</div>
-            <div className="mt-2 text-2xl font-semibold">Buy products, pay securely, track orders.</div>
-            <div className="mt-2 max-w-2xl text-sm text-white/90">
-              A modern e-commerce experience backed by admin-controlled payment settings and clear order status updates.
+            <div>
+              <div className="text-2xl font-semibold">Vestoria</div>
+              <div className="mt-1 text-sm text-white/90">Official platform</div>
             </div>
-          </div>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="secondary" onClick={() => (window.location.href = "/app/products")}>View Products</Button>
-            <Button onClick={() => (window.location.href = "/app/products")}>Buy Now</Button>
           </div>
         </div>
       </Card>
