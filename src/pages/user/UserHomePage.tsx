@@ -80,9 +80,54 @@ export function UserHomePage() {
               Vestoria helps you buy products with clear payment instructions and transparent order status updates.
               Upload your payment proof, then track your order from Pending to Approved/Completed.
             </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button variant="secondary" onClick={() => navigate("/app/orders")}>Track orders</Button>
+              <Button onClick={() => navigate("/app/products")}>Start shopping</Button>
+            </div>
           </div>
         </div>
       </Card>
+
+      <div>
+        <div className="flex items-end justify-between">
+          <div>
+            <div className="text-lg font-semibold text-slate-900">Why choose Vestoria</div>
+            <div className="text-sm text-slate-600">Simple steps, transparent status, and clear rewards</div>
+          </div>
+        </div>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Card className="p-0 overflow-hidden">
+            <div className="aspect-[16/10] w-full bg-slate-100">
+              <img src="/home-1.svg" alt="Secure payments" className="h-full w-full object-cover" />
+            </div>
+            <div className="p-5">
+              <div className="text-sm font-semibold text-slate-900">Secure payments</div>
+              <div className="mt-1 text-sm text-slate-600">Use Bank, Telebirr, or CBE Birr and upload proof easily.</div>
+            </div>
+          </Card>
+
+          <Card className="p-0 overflow-hidden">
+            <div className="aspect-[16/10] w-full bg-slate-100">
+              <img src="/home-2.svg" alt="Fast tracking" className="h-full w-full object-cover" />
+            </div>
+            <div className="p-5">
+              <div className="text-sm font-semibold text-slate-900">Fast order tracking</div>
+              <div className="mt-1 text-sm text-slate-600">Follow your order status from Pending to Approved/Completed.</div>
+            </div>
+          </Card>
+
+          <Card className="p-0 overflow-hidden">
+            <div className="aspect-[16/10] w-full bg-slate-100">
+              <img src="/home-3.svg" alt="Invite and earn" className="h-full w-full object-cover" />
+            </div>
+            <div className="p-5">
+              <div className="text-sm font-semibold text-slate-900">Invite & earn</div>
+              <div className="mt-1 text-sm text-slate-600">Share your referral code and get rewards from your team.</div>
+            </div>
+          </Card>
+        </div>
+      </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <Card>

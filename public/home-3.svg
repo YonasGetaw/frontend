@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="Invite and earn">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <g fill="#fff" opacity="0.95">
+    <rect x="180" y="210" width="840" height="440" rx="36" fill="rgba(255,255,255,0.14)"/>
+    <text x="240" y="320" font-size="44" font-family="Arial, sans-serif" font-weight="700" fill="#fff">Invite &amp; Earn</text>
+    <text x="240" y="370" font-size="22" font-family="Arial, sans-serif" fill="rgba(255,255,255,0.9)">Share your referral code and get rewards when your friend buys.</text>
+    <g transform="translate(240 430)">
+      <rect width="520" height="64" rx="18" fill="rgba(255,255,255,0.85)"/>
+      <text x="26" y="42" font-size="22" font-family="Arial, sans-serif" font-weight="700" fill="#4f46e5">YOUR-CODE-1234</text>
+    </g>
+    <g transform="translate(780 430)">
+      <rect width="220" height="64" rx="18" fill="rgba(255,255,255,0.22)" stroke="rgba(255,255,255,0.35)"/>
+      <text x="66" y="42" font-size="22" font-family="Arial, sans-serif" font-weight="700" fill="#fff">Copy</text>
+    </g>
+  </g>
+</svg>
