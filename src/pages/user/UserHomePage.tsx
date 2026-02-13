@@ -43,6 +43,12 @@ export function UserHomePage() {
 
       <Card className="overflow-hidden bg-gradient-to-br from-brand-600 to-brand-400 text-white">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-start gap-4">
+            <div className="hidden shrink-0 md:block">
+              <div className="rounded-2xl bg-white/15 p-3 ring-1 ring-white/20">
+                <img src="/vestoria-logo.svg" alt="Vestoria" className="h-12 w-12" />
+              </div>
+            </div>
           <div>
             <div className="text-xs font-semibold uppercase tracking-wider text-white/80">Vestoria Platform</div>
             <div className="mt-2 text-2xl font-semibold">Buy products, pay securely, track orders.</div>
@@ -50,9 +56,30 @@ export function UserHomePage() {
               A modern e-commerce experience backed by admin-controlled payment settings and clear order status updates.
             </div>
           </div>
+          </div>
           <div className="flex gap-2">
             <Button variant="secondary" onClick={() => (window.location.href = "/app/products")}>View Products</Button>
             <Button onClick={() => (window.location.href = "/app/products")}>Buy Now</Button>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="p-0 overflow-hidden">
+        <div className="grid gap-0 md:grid-cols-2">
+          <div className="aspect-[16/10] w-full bg-slate-100">
+            <img
+              src="/image.png"
+              alt="Vestoria company"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div className="p-5 md:p-7">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">About Vestoria</div>
+            <div className="mt-2 text-xl font-semibold text-slate-900">Trusted by our community</div>
+            <div className="mt-2 text-sm leading-relaxed text-slate-600">
+              Vestoria helps you buy products with clear payment instructions and transparent order status updates.
+              Upload your payment proof, then track your order from Pending to Approved/Completed.
+            </div>
           </div>
         </div>
       </Card>
