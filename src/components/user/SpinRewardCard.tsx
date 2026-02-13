@@ -47,6 +47,37 @@ export function SpinRewardCard(props: { className?: string; title?: string }) {
     };
   }, []);
 
+  async function animateToTargetIndex(targetIndex: number) {
+    // Spin a few full rounds, then stop exactly at the reward index.
+    const len = segments.length;
+    const current = activeIndex;
+    const rounds = 5;
+    const extraSteps = rounds * len;
+    const delta = (targetIndex - current + len) % len;
+    const totalSteps = extraSteps + delta;
+
+    let step = 0;
+    let delayMs = 60;
+
+    return await new Promise<void>((resolve) => {
+      const tick = () => {
+        step += 1;
+        setActiveIndex((i) => (i + 1) % len);
+
+        // simple ease-out
+        if (step > totalSteps * 0.7) delayMs = Math.min(200, delayMs + 8);
+
+        if (step >= totalSteps) {
+          resolve();
+          return;
+        }
+        window.setTimeout(tick, delayMs);
+      };
+
+      window.setTimeout(tick, delayMs);
+    });
+  }
+
   async function startSpin() {
     if (!spinStatus.data?.eligible) return;
     if (isAnimating || claimSpin.isPending) return;
@@ -59,18 +90,16 @@ export function SpinRewardCard(props: { className?: string; title?: string }) {
       intervalRef.current = null;
     }
 
-    intervalRef.current = window.setInterval(() => {
-      setActiveIndex((i) => (i + 1) % segments.length);
-    }, 120);
+    // Get the server reward first, then animate the UI to stop on that reward.
+    const data = await claimSpin.mutateAsync();
+    const rewardBirr = data.claimed ? Math.round((data.rewardCents ?? 0) / 100) : null;
 
-    await new Promise((r) => window.setTimeout(r, 5000));
-
-    if (intervalRef.current != null) {
-      window.clearInterval(intervalRef.current);
-      intervalRef.current = null;
+    if (rewardBirr != null) {
+      const idx = segments.indexOf(rewardBirr);
+      const targetIndex = idx >= 0 ? idx : 0;
+      await animateToTargetIndex(targetIndex);
     }
 
-    await claimSpin.mutateAsync();
     setIsAnimating(false);
   }
 
