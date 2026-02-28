@@ -59,8 +59,8 @@ export function UserWithdrawPage() {
   return (
     <div className="space-y-4">
       <div>
-        <div className="text-xl font-semibold text-slate-900">Withdraw</div>
-        <div className="mt-1 text-sm text-slate-600">Your request will be reviewed within 24 hours.</div>
+        <div className="text-xl font-bold text-slate-900 tracking-tight">Withdraw</div>
+        <div className="mt-1 text-sm text-slate-500">Your request will be reviewed within 24 hours.</div>
       </div>
 
       <Card>
@@ -180,9 +180,9 @@ export function UserWithdrawPage() {
 
 function Metric(props: { title: string; value: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-3 py-3">
-      <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">{props.title}</div>
-      <div className="mt-2 text-lg font-semibold text-slate-900">{props.value}</div>
+    <div className="rounded-xl border border-slate-200/80 bg-white px-3 py-3 shadow-premium">
+      <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">{props.title}</div>
+      <div className="mt-2 text-lg font-bold text-slate-900">{props.value}</div>
     </div>
   );
 }
@@ -190,10 +190,10 @@ function Metric(props: { title: string; value: string }) {
 function StatusPill({ status }: { status: Withdrawal["status"] }) {
   const cls =
     status === "PENDING"
-      ? "bg-amber-50 text-amber-800 border-amber-200"
+      ? "bg-amber-50 text-amber-700 border-amber-200"
       : status === "APPROVED"
-      ? "bg-emerald-50 text-emerald-800 border-emerald-200"
-      : "bg-rose-50 text-rose-800 border-rose-200";
+      ? "bg-teal-50 text-teal-700 border-teal-200"
+      : "bg-rose-50 text-rose-700 border-rose-200";
 
   return <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${cls}`}>{status}</span>;
 }

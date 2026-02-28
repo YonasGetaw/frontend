@@ -24,8 +24,8 @@ export function AdminDashboardPage() {
   return (
     <div className="space-y-4">
       <div>
-        <div className="text-xl font-semibold text-slate-900">Analytics</div>
-        <div className="mt-1 text-sm text-slate-600">Overview of users, orders, and income</div>
+        <div className="text-xl font-bold text-slate-900 tracking-tight">Analytics</div>
+        <div className="mt-1 text-sm text-slate-500">Overview of users, orders, and income</div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -59,10 +59,10 @@ function MetricCard(props: { title: string; value: string; icon: React.ReactNode
     <Card>
       <div className="flex items-center justify-between">
         <div>
-          <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">{props.title}</div>
-          <div className="mt-2 text-lg font-semibold text-slate-900">{props.value}</div>
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">{props.title}</div>
+          <div className="mt-2 text-xl font-bold text-slate-900">{props.value}</div>
         </div>
-        <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+        <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
           {props.icon}
         </div>
       </div>

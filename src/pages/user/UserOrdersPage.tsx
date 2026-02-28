@@ -46,10 +46,10 @@ export function UserOrdersPage() {
             key={s}
             onClick={() => setFilter(s)}
             className={
-              "rounded-xl border px-2 py-1.5 text-xs font-semibold transition whitespace-nowrap " +
+              "rounded-xl border px-3 py-2 text-xs font-semibold transition-all duration-200 whitespace-nowrap " +
               (filter === s
-                ? "border-blue-200 bg-blue-50 text-blue-700"
-                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50")
+                ? "border-teal-200 bg-teal-50 text-teal-700 shadow-sm"
+                : "border-slate-200/80 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700")
             }
           >
             {s}

@@ -106,15 +106,15 @@ export function SpinRewardCard(props: { className?: string; title?: string }) {
   }
 
   const slice = 360 / wheelSlices.length;
-  const colors = ["#3b82f6", "#22c55e", "#a855f7", "#f59e0b", "#0ea5e9", "#10b981", "#6366f1", "#fb7185"];
+  const colors = ["#0f766e", "#f59e0b", "#0d9488", "#d97706", "#115e59", "#eab308", "#134e4a", "#f97316"];
 
   return (
     <Card className={props.className}>
-      <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold text-slate-600">
+      <div className="border-b border-slate-200/80 bg-gradient-to-r from-teal-50/50 to-amber-50/30 px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-teal-800">
         {props.title ?? "Spin reward"}
       </div>
-      <div className="p-4 space-y-3">
-        <div className="text-sm text-slate-700">
+      <div className="p-5 space-y-4">
+        <div className="text-sm text-slate-600 leading-relaxed">
           You can spin when a user you invite makes their first approved deposit. Reward is always{" "}
           <span className="font-semibold">80</span> upto <span className="font-semibold">500</span> birr.
         </div>
@@ -197,8 +197,8 @@ export function SpinRewardCard(props: { className?: string; title?: string }) {
         </div>
 
         {spinResultBirr != null ? (
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-800">
-            You won {spinResultBirr} birr.
+          <div className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3 text-sm font-bold text-teal-800">
+            You won {spinResultBirr} birr!
           </div>
         ) : null}
       </div>

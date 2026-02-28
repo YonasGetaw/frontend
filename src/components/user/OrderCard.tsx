@@ -16,64 +16,63 @@ export function OrderCard({ order }: OrderCardProps) {
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
       case "PENDING":
-        return "bg-amber-50 text-amber-800 border-amber-200";
+        return "bg-amber-50 text-amber-700 border-amber-200";
       case "APPROVED":
-        return "bg-emerald-50 text-emerald-800 border-emerald-200";
+        return "bg-teal-50 text-teal-700 border-teal-200";
       case "REJECTED":
-        return "bg-rose-50 text-rose-800 border-rose-200";
+        return "bg-rose-50 text-rose-700 border-rose-200";
       case "COMPLETED":
-        return "bg-blue-50 text-blue-800 border-blue-200";
+        return "bg-teal-50 text-teal-700 border-teal-200";
       default:
-        return "bg-slate-100 text-slate-800 border-slate-200";
+        return "bg-slate-100 text-slate-700 border-slate-200";
+    }
+  };
+
+  const getStatusAccent = (status: Order["status"]) => {
+    switch (status) {
+      case "PENDING": return "border-l-amber-400";
+      case "APPROVED": return "border-l-teal-500";
+      case "REJECTED": return "border-l-rose-400";
+      case "COMPLETED": return "border-l-teal-600";
+      default: return "border-l-slate-300";
     }
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <div className="flex flex-col lg:flex-row">
-        {/* Status Section */}
-        <div className="lg:w-1/4 bg-gradient-to-br from-blue-50 to-blue-100 p-4 flex items-center justify-center min-h-[120px]">
-          <div className="text-center">
-            <div className={`inline-flex rounded-full border px-3 py-2 text-sm font-semibold ${getStatusColor(order.status)}`}>
-              {order.status}
-            </div>
+    <Card className={`overflow-hidden p-0 border-l-4 ${getStatusAccent(order.status)}`}>
+      <div className="p-5 lg:p-6">
+        {/* Header row */}
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <h3 className="text-base font-bold text-slate-900 tracking-tight">{order.product.name}</h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Placed on {new Date(order.createdAt).toLocaleString()}
+            </p>
+          </div>
+          <div className={`inline-flex rounded-full border px-3 py-1.5 text-xs font-semibold ${getStatusColor(order.status)}`}>
+            {order.status}
           </div>
         </div>
 
-        {/* Content Section */}
-        <div className="lg:w-3/4 p-4 lg:p-6">
-          {/* Blue Header Section */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-t-lg -m-4 mb-4 lg:-m-6 lg:mb-4">
-            <h3 className="text-lg font-semibold">{order.product.name}</h3>
+        {/* Order Details Grid */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-teal-50/70 p-3 rounded-xl border border-teal-100">
+            <div className="text-[11px] uppercase tracking-wider font-semibold text-teal-600">Amount</div>
+            <div className="text-base font-bold text-teal-900 mt-0.5">ETB {(order.amountCents / 100).toFixed(2)}</div>
           </div>
-
-          {/* Order Details Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-            <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-              <div className="text-xs sm:text-sm text-blue-600 font-medium">Price</div>
-              <div className="text-base sm:text-lg font-bold text-blue-900">ETB {(order.amountCents / 100).toFixed(2)}</div>
-            </div>
-            
-            <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-              <div className="text-xs sm:text-sm text-green-600 font-medium">Date</div>
-              <div className="text-base sm:text-lg font-bold text-green-900">
-                {new Date(order.createdAt).toLocaleDateString()}
-              </div>
-            </div>
-            
-            <div className="bg-purple-50 p-3 rounded-lg border border-purple-200">
-              <div className="text-xs sm:text-sm text-purple-600 font-medium">Order ID</div>
-              <div className="text-base sm:text-lg font-bold text-purple-900">
-                #{order.id.slice(-8)}
-              </div>
+          
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+            <div className="text-[11px] uppercase tracking-wider font-semibold text-slate-500">Date</div>
+            <div className="text-sm font-bold text-slate-900 mt-0.5">
+              {new Date(order.createdAt).toLocaleDateString()}
             </div>
           </div>
-
-          <div className="mb-4">
-            <div className="text-sm text-gray-600 mb-1">Order Details</div>
-            <p className="text-gray-800 text-sm">
-              Placed on {new Date(order.createdAt).toLocaleString()} • Status: {order.status}
-            </p>
+          
+          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+            <div className="text-[11px] uppercase tracking-wider font-semibold text-slate-500">Order ID</div>
+            <div className="text-sm font-bold text-slate-900 mt-0.5">
+              #{order.id.slice(-8)}
+            </div>
           </div>
         </div>
       </div>

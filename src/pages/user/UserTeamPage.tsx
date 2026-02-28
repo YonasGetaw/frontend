@@ -36,8 +36,8 @@ export function UserTeamPage() {
   return (
     <div className="space-y-4">
       <div>
-        <div className="text-xl font-semibold text-slate-900">My Team</div>
-        <div className="mt-1 text-sm text-slate-600">View and manage your referred team members.</div>
+        <div className="text-xl font-bold text-slate-900 tracking-tight">My Team</div>
+        <div className="mt-1 text-sm text-slate-500">View and manage your referred team members.</div>
       </div>
 
       <Card>
@@ -117,9 +117,9 @@ export function UserTeamPage() {
 
 function Metric(props: { title: string; value: string }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-3 py-3">
-      <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">{props.title}</div>
-      <div className="mt-2 text-lg font-semibold text-slate-900">{props.value}</div>
+    <div className="rounded-xl border border-slate-200/80 bg-white px-3 py-3 shadow-premium">
+      <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">{props.title}</div>
+      <div className="mt-2 text-lg font-bold text-slate-900">{props.value}</div>
     </div>
   );
 }
@@ -129,8 +129,8 @@ function StatusPill({ isActive }: { isActive: boolean }) {
     <span
       className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${
         isActive
-          ? "bg-green-50 text-green-800 border-green-200"
-          : "bg-slate-50 text-slate-800 border-slate-200"
+          ? "bg-teal-50 text-teal-700 border-teal-200"
+          : "bg-slate-50 text-slate-500 border-slate-200"
       }`}
     >
       {isActive ? "Active" : "Inactive"}
@@ -140,10 +140,10 @@ function StatusPill({ isActive }: { isActive: boolean }) {
 
 function OrderStatusPill({ status }: { status: string }) {
   const colors = {
-    PENDING: "bg-amber-50 text-amber-800 border-amber-200",
-    APPROVED: "bg-green-50 text-green-800 border-green-200",
-    REJECTED: "bg-red-50 text-red-800 border-red-200",
-    COMPLETED: "bg-blue-50 text-blue-800 border-blue-200"
+    PENDING: "bg-amber-50 text-amber-700 border-amber-200",
+    APPROVED: "bg-teal-50 text-teal-700 border-teal-200",
+    REJECTED: "bg-rose-50 text-rose-700 border-rose-200",
+    COMPLETED: "bg-teal-50 text-teal-700 border-teal-200"
   };
   return (
     <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${colors[status as keyof typeof colors] || colors.PENDING}`}>

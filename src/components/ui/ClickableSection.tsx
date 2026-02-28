@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Card } from "../../ui/Card";
-import { SectionHeader } from "./SectionHeader";
 
 interface ClickableSectionProps {
   title: string;
@@ -18,23 +17,24 @@ export function ClickableSection({ title, icon, children, defaultExpanded = fals
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden p-0">
       {/* Clickable Header */}
-      <div 
+      <button 
         onClick={handleClick}
-        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 cursor-pointer hover:from-blue-700 hover:to-blue-800 transition-all duration-200"
+        type="button"
+        className="w-full bg-gradient-to-r from-teal-700 to-teal-800 text-white p-4 cursor-pointer hover:from-teal-800 hover:to-teal-900 transition-all duration-200"
       >
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="text-white">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/15">
               {icon}
             </div>
-            <h3 className="text-lg font-semibold">{title}</h3>
+            <h3 className="text-base font-semibold tracking-tight">{title}</h3>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             {headerAction}
             <svg 
-              className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+              className={`w-5 h-5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -43,11 +43,11 @@ export function ClickableSection({ title, icon, children, defaultExpanded = fals
             </svg>
           </div>
         </div>
-      </div>
+      </button>
 
       {/* Expandable Content */}
       {isExpanded && (
-        <div className="p-4 border-t border-blue-100">
+        <div className="p-5 border-t border-teal-100">
           {children}
         </div>
       )}

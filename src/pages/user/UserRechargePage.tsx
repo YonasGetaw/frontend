@@ -22,12 +22,12 @@ export function UserRechargePage() {
   return (
     <div className="space-y-4">
       <div>
-        <div className="text-xl font-semibold text-slate-900">Recharge Wallet</div>
-        <div className="mt-1 text-sm text-slate-600">Add funds to your wallet using any of the payment methods below.</div>
+        <div className="text-xl font-bold text-slate-900 tracking-tight">Recharge Wallet</div>
+        <div className="mt-1 text-sm text-slate-500">Add funds to your wallet using any of the payment methods below.</div>
       </div>
 
-      <Card>
-        <div className="border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold text-slate-600">Payment Methods</div>
+      <Card className="p-0 overflow-hidden">
+        <div className="border-b border-slate-200/80 bg-gradient-to-r from-teal-50/50 to-amber-50/30 px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-teal-800">Payment Methods</div>
         <div className="p-4 space-y-4">
           {settings ? (
             <>

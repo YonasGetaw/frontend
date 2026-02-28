@@ -24,13 +24,18 @@ export function ForgotPasswordPage() {
   if (done) {
     return (
       <div>
-        <div className="text-2xl font-semibold text-slate-900">Check your email</div>
-        <div className="mt-2 text-sm text-slate-600">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50">
+          <svg className="h-6 w-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <div className="text-2xl font-bold text-slate-900 tracking-tight">Check your email</div>
+        <div className="mt-2 text-sm text-slate-500 leading-relaxed">
           If the email exists, a reset link has been sent. Please check your inbox.
         </div>
         <div className="mt-6">
-          <Link to="/login" className="text-sm font-semibold text-brand-700 hover:text-brand-800">
-            Back to login
+          <Link to="/login" className="text-sm font-semibold text-teal-700 hover:text-teal-800 transition-colors">
+            Back to sign in
           </Link>
         </div>
       </div>
@@ -39,19 +44,19 @@ export function ForgotPasswordPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <div className="text-2xl font-semibold text-slate-900">Forgot password</div>
-        <div className="mt-1 text-sm text-slate-600">We’ll send you a secure reset link</div>
+      <div className="mb-8">
+        <div className="text-2xl font-bold text-slate-900 tracking-tight">Forgot password</div>
+        <div className="mt-1.5 text-sm text-slate-500">{"We'll send you a secure reset link"}</div>
       </div>
 
       {serverError ? (
-        <div className="mb-4 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+        <div className="mb-5 flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {serverError}
         </div>
       ) : null}
 
       <form
-        className="space-y-4"
+        className="space-y-5"
         onSubmit={handleSubmit(async (values) => {
           setServerError(null);
           const parsed = schema.safeParse(values);
@@ -74,10 +79,10 @@ export function ForgotPasswordPage() {
         </Button>
       </form>
 
-      <div className="mt-4 text-sm text-slate-600">
+      <div className="mt-6 text-sm text-slate-500">
         Remembered it?{" "}
-        <Link to="/login" className="font-semibold text-brand-700 hover:text-brand-800">
-          Login
+        <Link to="/login" className="font-semibold text-teal-700 hover:text-teal-800 transition-colors">
+          Sign in
         </Link>
       </div>
     </div>
